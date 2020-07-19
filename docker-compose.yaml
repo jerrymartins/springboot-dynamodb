@@ -5,5 +5,8 @@ services:
     image: amazon/dynamodb-local
     hostname: dynamodb-local
     container_name: dynamodb-local
+    environment:
+      - AWS_ACCESS_KEY_ID=1
+      - AWS_SECRET_ACCESS_KEY=1
     ports:
-      - "8042:8000"
+      - "8000:8000"
