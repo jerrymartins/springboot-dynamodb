@@ -2,6 +2,7 @@ package address.geolocation.com.geo.controller;
 import address.geolocation.com.geo.domain.AddressDomain;
 import address.geolocation.com.geo.gateway.exception.AddAddressException;
 import address.geolocation.com.geo.gateway.exception.AddressNotFoundException;
+import address.geolocation.com.geo.gateway.exception.UpdateAddressException;
 import address.geolocation.com.geo.usecase.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,9 +51,10 @@ public class AddressController {
         return addAddressUseCase.execute(addressDomain);
     }
 
-    @PutMapping(path = "{id")
+    @PutMapping(path = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable String id, @Valid @RequestBody AddressDomain addressDomain) throws AddAddressException {
+    public void update(@PathVariable String id, @Valid @RequestBody AddressDomain addressDomain) throws UpdateAddressException {
+        addressDomain.setId(id);
         updateAddressUseCase.execute(addressDomain);
     }
 }
