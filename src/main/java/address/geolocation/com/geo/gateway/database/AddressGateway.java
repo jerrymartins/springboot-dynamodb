@@ -7,6 +7,7 @@ import address.geolocation.com.geo.gateway.database.repository.AddressRepository
 import address.geolocation.com.geo.gateway.database.translator.AddressDomainToAddressEntityTranslator;
 import address.geolocation.com.geo.gateway.database.translator.AddressEntityToAddressDomainTranslator;
 import address.geolocation.com.geo.gateway.exception.AddAddressException;
+import address.geolocation.com.geo.gateway.exception.DeleteAddressException;
 import address.geolocation.com.geo.gateway.exception.SearchAddressException;
 import address.geolocation.com.geo.gateway.exception.UpdateAddressException;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class AddressGateway implements SearchAddressByZipCodeGateway, SearchAddressByCityGateway, SearchAddressByIdGateway, AddAddressGateway, UpdateAddressGateway {
+public class AddressGateway implements SearchAddressByZipCodeGateway, SearchAddressByCityGateway, SearchAddressByIdGateway, AddAddressGateway, UpdateAddressGateway, DeleteAddressGateway {
 
     private final AddressRepository addressRepository;
 
@@ -101,5 +102,17 @@ public class AddressGateway implements SearchAddressByZipCodeGateway, SearchAddr
 
         }
 
+    }
+
+    @Override
+    public void delete(String id) throws DeleteAddressException {
+        try {
+            LOGGER.info("Deletando registro {}", id);
+            addressRepository.deleteById(id);
+        } catch (Exception ex) {
+            LOGGER.error("Erro ao deletar registro {}", id, ex);
+            throw new DeleteAddressException("Erro ao deletar endereço");
+
+        }
     }
 }

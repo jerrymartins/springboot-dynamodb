@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 public class SearchAddressesByIdUseCase {
@@ -28,12 +27,10 @@ public class SearchAddressesByIdUseCase {
         try {
             Optional<AddressDomain> addressDomainOptional = addressGateway.findById(id);
             if (!addressDomainOptional.isPresent()) {
-                LOGGER.info("endereço com id {} não econtrado na base de dados", id);
                 throw new AddressNotFoundException(ADDRESS_NOT_FOUND_MESSAGE);
             }
             return addressDomainOptional.get();
         } catch (SearchAddressException ex ) {
-            LOGGER.info("Problemas ao buscar endereços id {}", id, ex);
             throw new AddressNotFoundException(ADDRESS_NOT_FOUND_MESSAGE);
         }
     }

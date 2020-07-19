@@ -27,7 +27,6 @@ public class SearchAddressesByCityUseCase {
         try {
             return addressGateway.findByCity(city);
         } catch (SearchAddressException ex ) {
-            LOGGER.info("Problemas ao buscar endereços da cidade {}", city, ex);
             throw new AddressNotFoundException(ADDRESS_NOT_FOUND_MESSAGE);
         }
     }

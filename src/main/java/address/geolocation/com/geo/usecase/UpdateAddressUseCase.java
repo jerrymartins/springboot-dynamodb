@@ -21,11 +21,9 @@ public class UpdateAddressUseCase {
 
     public void execute(AddressDomain addressDomain) throws UpdateAddressException {
         try {
-            LOGGER.info("Registrando endereço {}", addressDomain);
             addressGateway.update(addressDomain);
 
         } catch (Exception ex) {
-            LOGGER.error("Erro ao atualizar endereço {}", addressDomain, ex);
             throw new UpdateAddressException("Problemas ao atualizar endereço");
         }
 

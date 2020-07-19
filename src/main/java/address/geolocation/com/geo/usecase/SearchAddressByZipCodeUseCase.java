@@ -27,7 +27,6 @@ public class SearchAddressByZipCodeUseCase {
         try {
             return addressGateway.findByZipCode(zipcode);
         } catch (SearchAddressException ex ) {
-            LOGGER.info("Problemas ao buscar endereço {}", zipcode, ex);
             throw new AddressNotFoundException(ADDRESS_NOT_FOUND_MESSAGE);
         }
     }

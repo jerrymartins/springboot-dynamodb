@@ -2,6 +2,7 @@ package address.geolocation.com.geo.controller;
 import address.geolocation.com.geo.domain.AddressDomain;
 import address.geolocation.com.geo.gateway.exception.AddAddressException;
 import address.geolocation.com.geo.gateway.exception.AddressNotFoundException;
+import address.geolocation.com.geo.gateway.exception.DeleteAddressException;
 import address.geolocation.com.geo.gateway.exception.UpdateAddressException;
 import address.geolocation.com.geo.usecase.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,16 @@ public class AddressController {
     private final SearchAddressesByIdUseCase searchAddressesByIdUseCase;
     private final AddAddressUseCase addAddressUseCase;
     private final UpdateAddressUseCase updateAddressUseCase;
+    private final DeleteAddressUseCase deleteAddressUseCase;
 
     @Autowired
-    public AddressController(SearchAddressByZipCodeUseCase searchAddressByZipCodeUseCase, SearchAddressesByCityUseCase searchAddressesByCityUseCase, SearchAddressesByIdUseCase searchAddressesByIdUseCase, AddAddressUseCase addAddressUseCase, UpdateAddressUseCase updateAddressUseCase) {
+    public AddressController(SearchAddressByZipCodeUseCase searchAddressByZipCodeUseCase, SearchAddressesByCityUseCase searchAddressesByCityUseCase, SearchAddressesByIdUseCase searchAddressesByIdUseCase, AddAddressUseCase addAddressUseCase, UpdateAddressUseCase updateAddressUseCase, DeleteAddressUseCase deleteAddressUseCase) {
         this.searchAddressByZipCodeUseCase = searchAddressByZipCodeUseCase;
         this.searchAddressesByCityUseCase = searchAddressesByCityUseCase;
         this.searchAddressesByIdUseCase = searchAddressesByIdUseCase;
         this.addAddressUseCase = addAddressUseCase;
         this.updateAddressUseCase = updateAddressUseCase;
+        this.deleteAddressUseCase = deleteAddressUseCase;
     }
 
     @GetMapping(path = "id/{id}")
@@ -56,5 +59,11 @@ public class AddressController {
     public void update(@PathVariable String id, @Valid @RequestBody AddressDomain addressDomain) throws UpdateAddressException {
         addressDomain.setId(id);
         updateAddressUseCase.execute(addressDomain);
+    }
+
+    @DeleteMapping(path = "{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) throws DeleteAddressException {
+        deleteAddressUseCase.execute(id);
     }
 }
